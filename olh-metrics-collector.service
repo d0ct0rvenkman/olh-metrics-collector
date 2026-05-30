@@ -1,0 +1,22 @@
+# /etc/systemd/system/olh-metrics-collector.service
+[Unit]
+Description=OpenLinkHub Metrics Collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/olh-metrics-collector/config.env
+ExecStart=/usr/local/bin/olh-metrics-collector
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=10
+WorkingDirectory=/var/lib/olh-metrics-collector
+StandardOutput=journal
+StandardError=inherit
+LimitNOFILE=65536
+User=olh
+Group=olh
+
+[Install]
+WantedBy=multi-user.target
