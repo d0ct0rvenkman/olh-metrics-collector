@@ -23,15 +23,7 @@ import (
 var cfg *ClientConfig
 var verbose bool
 
-// Load configuration once before main starts.
-func init() {
-	var err error
-	cfg, err = LoadConfig()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "configuration error: %v\n", err)
-		os.Exit(1)
-	}
-}
+
 
 // Metric represents a single InfluxDB line‑protocol measurement.
 type Metric struct {
@@ -281,13 +273,18 @@ func postMetric(ctx context.Context, cfg *ClientConfig, line string) error {
 }
 
 func main() {
-	flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
-	flag.Parse()
-	if verbose {
-		logrus.SetLevel(logrus.InfoLevel)
-	} else {
-		logrus.SetLevel(logrus.ErrorLevel)
-	}
+flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
+flag.Parse()
+if verbose {
+    logrus.SetLevel(logrus.InfoLevel)
+} else {
+    logrus.SetLevel(logrus.ErrorLevel)
+}
+var err error
+cfg, err = LoadConfig()
+if err != nil {
+    logrus.Fatalf("configuration error: %v", err)
+}
 
 	// Fallback to underscore-separated env vars if standard ones are missing
 	// Validate URLs at startup.
