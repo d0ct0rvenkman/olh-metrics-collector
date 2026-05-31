@@ -28,7 +28,14 @@ All dependencies are fetched automatically via Go modules (`go mod tidy`).
 
 ---
 
-## Build\n\n```bash\n# Clone the repository\ngit clone https://github.com/example/openlinkhub_exporter.git\ncd openlinkhub_exporter\n\n# Build the binary\ngo build -o olh_exporter\n```\n\nRun the binary directly; no server component.
+## Build
+```bash
+
+# Build the binary
+go build -o olh-metrics-collector
+```
+
+Run the binary directly; no server component.
 
 
 ---
@@ -59,7 +66,7 @@ If an URL is missing a leading slash when combined with a path (`/api/devices/`)
 ```
 # Using a .env file
 export $(cat .env | xargs)   # or use `dotenv -i .env` if you have it installed
-./olh_exporter
+./olh-metrics-collector
 ```
 
 
